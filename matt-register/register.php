@@ -11,7 +11,8 @@ if(isset($_POST['fname']) && !empty($_POST['fname']) && isset($_POST['lname']) &
     $password = $_POST['password'];
     
     //Format
-    $name = ucwords($fname);
+    $fname = ucwords($fname);
+    $lname = ucwords($lname);
     $email = strtolower($email);
     
     //Connect to DB
