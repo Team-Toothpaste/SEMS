@@ -1,6 +1,6 @@
 <?php
 $responseCode = 400;
-$responseMessage = $_POST['password'] . "Form incomplete";
+$responseMessage = "Form incomplete";
 if(isset($_POST['fname']) && !empty($_POST['fname']) && isset($_POST['lname']) && !empty($_POST['lname']) && isset($_POST['email']) && !empty($_POST['email']) && isset($_POST['password']) && !empty($_POST['password'])){
     //Vars all filled
     $responseMessage = "An unknown error occurred";
