@@ -44,16 +44,18 @@ if(isset($_POST['fname']) && !empty($_POST['fname']) && isset($_POST['lname']) &
                 }
             }
             else{
+                $response = 400;
                 $responseMessage = "Password invalid. Must include at least one lowercase and uppercase character, one number, and be at least 8 characters long.";
             }
         }
         else{
+            $responseCode = 400;
             $responseMessage = "Email invalid";
         }
     }
     mysqli_close($conn);
 }
-$response = array("status" => $responseCode, "response" => array('message' => $responseMessage, 'data' => $responseData));
+$response = array("status" => $responseCode, "response" => array('message' => $responseMessage, 'data' => null));
 header("Content-type", "application/json");
 http_response_code($responseCode);
 echo json_encode($response);
