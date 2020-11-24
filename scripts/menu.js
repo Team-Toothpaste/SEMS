@@ -19,7 +19,7 @@ class TopMenu extends HTMLElement {
                 document.getElementById('content').style.marginTop = "50px";
             }
         };
-        x.open("GET", "http://brookes-sems.epizy.com/matt-register/scripts/dependencies/top-menu.html", true);
+        x.open("GET", "http://brookes-sems.epizy.com/scripts/dependencies/top-menu.html", true);
         x.send();
     }
 }
