@@ -3,22 +3,59 @@
 
 h1 {
     font-family: 'azo-sans-web', Helvetica, Arial, sans-serif;
-    font-size: 70px;
+    font-size: calc(60px + 0.3vw);
     color: var(--green, green);
 }
 
 h2 {
     font-family: 'azo-sans-web', Helvetica, Arial, sans-serif;
-    font-size: 40px;
+    font-size: calc(30px + 0.3vw);
+    color: var(--black, black);
 }
 
-p1, p2, p3, p4, p {
+h3 {
+    font-family: 'azo-sans-web', Helvetica, Arial, sans-serif;
+    font-size: calc(18px + 0.3vw);
+}
+
+p1, p2, p3, p4, p, label {
     font-family: 'atten-new', Helvetica, Arial, sans-serif;
+    color: var(--black, black);
+}
+
+p1 {
+    font-size: calc(16px + 0.3vw);
+}
+
+p2 {
+    font-size: calc(13px + 0.3vw);
+    color: var(--dark-gray, darkgray);
+}
+
+p3, p4, p {
+    font-size: calc(10px + 0.3vw);
+    color: var(--dark-gray, darkgray);
+}
+
+p4 {
+    color: var(--gray, gray);
+}
+
+p {
+    color: var(--black, black);
 }
 
 label {
     font-family: 'azo-sans-web', Helvetica, Arial, sans-serif;
     margin-bottom: 5px;
+    color: var(--gray, gray);
+    font-weight: 700;
+}
+
+label:before {
+    content: '|';
+    margin-right: calc(10px - 0.3ex);
+    color: var(--light-gray, lightgray);
 }
 
 input {
@@ -38,6 +75,10 @@ input {
     color: var(--dark-gray, darkgray);
     outline: none !important;
     margin-bottom: 10px;
+}
+
+label + input:not([type="submit"]), label + input:not([type="button"]) {
+    border-top-left-radius: 0.3ex;
 }
 
 input:invalid, input.invalid {
