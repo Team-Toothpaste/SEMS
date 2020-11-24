@@ -40,6 +40,10 @@ input {
     margin-bottom: 10px;
 }
 
+input:invalid, input.invalid {
+    border-color: var(--red, red);
+}
+
 input[type="submit"], input[type="button"] {
     height: 40px;
     line-height: unset;
@@ -48,6 +52,10 @@ input[type="submit"], input[type="button"] {
     cursor: pointer;
     color: var(--white, white);
     border-radius: 20px;
+}
+
+input[type="submit"]:invalid, input[type="button"]:invalid, input[type="submit"].invalid, input[type="button"].invalid {
+    background-color: var(--red, red);
 }
 
 input:hover {

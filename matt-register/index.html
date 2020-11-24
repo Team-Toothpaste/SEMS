@@ -72,6 +72,8 @@
                     <input id="user-register-email-input" type="text" name="email" placeholder="Email address" />
                     <label for="user-register-password-input">Password</label>
                     <input id="user-register-password-input" type="password" name="password" placeholder="Password" />
+                    <label for="user-register-confirm-password-input">Confirm Password</label>
+                    <input id="user-register-confirm-password-input" type="password" name="cpassword" placeholder="Confirm password" onkeyup="if(this.value != document.getElementById('user-register-password-input').value){this.classList.add('invalid');}else{this.classList.remove('invalid');}" />
                     <br />
                     <input type="submit" value="Register" />
                 </form>
