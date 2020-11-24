@@ -14,6 +14,9 @@ if(isset($_POST['email']) && !empty($_POST['email'])){
     require_once('../.credentials.php');
     $conn = mysqli_connect($_DB['location'], $_DB['username'], $_DB['password'], $_DB['name']);
     if($conn){
+        //Show email sent as not to give a clue if email typed was correct
+        $responseCode = 200;
+        $responseMessage = "Email sent";
         //DB connection
         if(filter_var($email, FILTER_VALIDATE_EMAIL)){
             //Email valid
@@ -35,15 +38,13 @@ if(isset($_POST['email']) && !empty($_POST['email'])){
                     
                     Here's your password reset link:
                     http://brookes-sems.epizy.com/password-reset/?u=$hash
+                    
+                    SEMS Support
 EOT;
                     $message = wordwrap($message, 70);
-                    mail($name . " <" . $email . ">", "Your password reset link.", $message);
+                    mail(" . $email . ", "Your password reset link.", $message, "From: SEMS Support <no-reply@brookes-sems.epizy.com>\r\n");
                 }
             }
-        }
-        else{
-            $responseCode = 400;
-            $responseMessage = "Email invalid";
         }
     }
     mysqli_close($conn);
