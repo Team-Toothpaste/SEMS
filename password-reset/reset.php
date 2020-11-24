@@ -47,8 +47,8 @@ EOT;
                 }
             }
         }
+        mysqli_close($conn);
     }
-    mysqli_close($conn);
 }
 else if(isset($_POST['uid']) && !empty($_POST['uid']) && is_numeric($_POST['uid']) && isset($_POST['password']) && !empty($_POST['password']) && isset($_POST['cpassord']) && !empty($_POST['cpassword']) && isset($_POST['hash']) && !empty($_POST['hash'])){
     //Update password
@@ -95,6 +95,7 @@ else if(isset($_POST['uid']) && !empty($_POST['uid']) && is_numeric($_POST['uid'
                     }
                 }
             }
+            mysqli_close($conn);
         }
     }
 }
