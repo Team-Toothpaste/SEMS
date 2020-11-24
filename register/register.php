@@ -35,7 +35,6 @@ if(isset($_POST['fname']) && !empty($_POST['fname']) && isset($_POST['lname']) &
                     $passwordSalt = substr(sha1(rand()), 0, 16); //Random salt
                     $password = crypt($password, "$6$" . $passwordSalt);
 
-                    $password = mysqli_real_escape_string($conn, $password);
                     //Enter into DB
                     $insert = mysqli_query($conn, 'INSERT INTO users (fname, lname, email, password) VALUES ("' . $fname . '", "' . $lname . '", "' . $email . '", "' . $password . '")');
                     if($insert){

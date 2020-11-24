@@ -75,8 +75,6 @@ else if(isset($_POST['uid']) && !empty($_POST['uid']) && is_numeric($_POST['uid'
             $passwordSalt = substr(sha1(rand()), 0, 16); //Random salt
             $passwordHash = crypt($password, "$6$" . $passwordSalt);
             
-            $passwordHash = mysqli_real_escape_string($conn, $passwordHash);
-            
             //Verify user details with hash
             $getdetails = mysqli_query($conn, 'SELECT fname, lname, email, password FROM users WHERE id=' . $uid . '');
             if(mysqli_num_rows($getdetails > 0)){
