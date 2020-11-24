@@ -2,7 +2,7 @@
 $responseCode = 400;
 $responseMessage = "Form incomplete";
 if(isset($_POST['email']) && !empty($_POST['email'])){
-    //Vars all filled
+    //Send reset email
     $email = $_POST['email'];
     
     //Format
@@ -24,9 +24,10 @@ if(isset($_POST['email']) && !empty($_POST['email'])){
             $email = mysqli_real_escape_string($conn, $email);
             
             //Enter into DB
-            $verifyemail = mysqli_query($conn, 'SELECT fname, lname, email, password FROM users WHERE email="' . $email . '"');
+            $verifyemail = mysqli_query($conn, 'SELECT id, fname, lname, email, password FROM users WHERE email="' . $email . '"');
             if(mysqli_num_rows($verifyemail) > 0){
                 while($row = mysqli_fetch_assoc($verifyemail)){
+                    $uid = $row['id'];
                     $fname = $row['fname'];
                     $lname = $row['lname'];
                     $name = $fname . " " . $lname;
@@ -37,7 +38,7 @@ if(isset($_POST['email']) && !empty($_POST['email'])){
                     Hey, $fname!
                     
                     Here's your password reset link:
-                    http://brookes-sems.epizy.com/password-reset/?u=$hash
+                    http://brookes-sems.epizy.com/password-reset/?u=$hash&i=$uid
                     
                     SEMS Support
 EOT;
@@ -48,6 +49,54 @@ EOT;
         }
     }
     mysqli_close($conn);
+}
+else if(isset($_POST['uid']) && !empty($_POST['uid']) && is_numeric($_POST['uid']) && isset($_POST['password']) && !empty($_POST['password']) && isset($_POST['cpassord']) && !empty($_POST['cpassword']) && isset($_POST['hash']) && !empty($_POST['hash'])){
+    //Update password
+    $uid = $_POST['uid'];
+    $password = $_POST['password'];
+    $cpassword = $_POST['cpassword'];
+    $hash = $_POST['hash'];
+    
+    $responseMessage = "Passwords don't match";
+    
+    if($password == $cpassword){
+        $responseCode = 500;
+        $responseMessage = "An unknown error occurred";
+        
+        //Connect to DB
+        require_once('../.credentials.php');
+        $conn = mysqli_connect($_DB['location'], $_DB['username'], $_DB['password'], $_DB['name']);
+        if($conn){
+            $responseCode = 401;
+            $responseMessage = "Link invalid";
+            $uid = mysqli_real_escape_string($conn, $uid);
+            
+            //Hash password
+            $passwordSalt = substr(sha1(rand()), 0, 16); //Random salt
+            $passwordHash = crypt($password, "$6$" . $passwordSalt);
+            
+            $passwordHash = mysqli_real_escape_string($conn, $passwordHash);
+            
+            //Verify user details with hash
+            $getdetails = mysqli_query($conn, 'SELECT fname, lname, email, password FROM users WHERE id=' . $uid . '');
+            if(mysqli_num_rows($getdetails > 0)){
+                while($row = mysqli_fetch_assoc($getdetails)){
+                    $uhash = md5($row['fname'] . ' ' . $row['lname'] . $row['email'] . $row['password']);
+                }
+                if($uhash == $hash){
+                    $responseCode = 500;
+                    $responseMessage = "An unknown error occurred";
+                    $hash = mysqli_real_escape_string($conn, $hash);
+                    //Update DB
+                    $changePassword = mysqli_query($conn, 'UPDATE users SET password="' . $passwordHash . '" WHERE id=' . $uid);
+                    if($changePassword){
+                        $responseCode = 200;
+                        $responseMessage = "Password changed";
+                    }
+                }
+            }
+        }
+    }
 }
 $response = array("status" => $responseCode, "response" => array('message' => $responseMessage, 'data' => null));
 header("Content-type", "application/json");
