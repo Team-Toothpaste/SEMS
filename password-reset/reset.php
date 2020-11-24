@@ -84,7 +84,7 @@ else if(isset($_POST['uid']) && !empty($_POST['uid']) && is_numeric($_POST['uid'
                 if($uhash == $hash){
                     $responseCode = 500;
                     $responseMessage = "An unknown error occurred";
-                    $hash = mysqli_real_escape_string($conn, $hash);
+                    
                     //Update DB
                     $changePassword = mysqli_query($conn, 'UPDATE users SET password="' . $passwordHash . '" WHERE id=' . $uid);
                     if($changePassword){
