@@ -50,7 +50,7 @@ EOT;
         mysqli_close($conn);
     }
 }
-else if(isset($_POST['uid']) && !empty($_POST['uid']) && is_numeric($_POST['uid']) && isset($_POST['password']) && !empty($_POST['password']) && isset($_POST['cpassord']) && !empty($_POST['cpassword']) && isset($_POST['hash']) && !empty($_POST['hash'])){
+else if(isset($_POST['uid']) && !empty($_POST['uid']) && is_numeric($_POST['uid']) && isset($_POST['password']) && !empty($_POST['password']) && isset($_POST['cpassword']) && !empty($_POST['cpassword']) && isset($_POST['hash']) && !empty($_POST['hash'])){
     //Update password
     $uid = $_POST['uid'];
     $password = $_POST['password'];
