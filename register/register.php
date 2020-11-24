@@ -19,7 +19,7 @@ if(isset($_POST['fname']) && !empty($_POST['fname']) && isset($_POST['lname']) &
         $responseMessage = "An unknown error occurred";
         $responseCode = 500;
         //Connect to DB
-        require_once('.credentials.php');
+        require_once('../.credentials.php');
         $conn = mysqli_connect($_DB['location'], $_DB['username'], $_DB['password'], $_DB['name']);
         if($conn){
             //DB connection
