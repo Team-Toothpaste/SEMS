@@ -11,7 +11,7 @@
         
         <script>
             
-            function reset(){
+            function resetPassword(){
                 var x;
                 if(window.XMLHttpRequest){
                     x = new XMLHttpRequest();
@@ -19,23 +19,23 @@
                 else{
                     x = new ActiveXObject("Microsoft.XMLHTTP");
                 }
+                var form = document.getElementById('user-pr-form');
                 x.onreadystatechange = function(){
                     if(this.readyState == 4){
-                        console.log(this.responseText);
                         for(let responseElem of document.querySelectorAll('form#user-pr-form p.response')){
                             if(responseElem.hasAttribute('success')) responseElem.removeAttribute('success');
                             switch(this.status){
                                 case 200:
+                                    form.reset();
                                     responseElem.setAttribute('success', '');
                                 default:
                                     responseElem.innerText = JSON.parse(this.responseText).response.message;
                             }
-                        };
+                        }
                     }
                 };
                 x.open("POST", "http://brookes-sems.epizy.com/password-reset/reset.php", true);
-                var form = document.getElementById('user-pr-form');
-                const formdata = new FormData(form);
+                var formdata = new FormData(form);
                 x.send(formdata);
             }
             
@@ -60,7 +60,7 @@
         <menu-bar></menu-bar>
         <div id="content">
             <div id="pr-area" class="section">
-                <form id="user-pr-form" method="POST" action="reset.php" onsubmit="event.preventDefault();reset();return false;">
+                <form id="user-pr-form" method="POST" action="reset.php" onsubmit="event.preventDefault();resetPassword();return false;">
                     <?php
                         if(!isset($_GET['u']) || empty($_GET['u']) || !isset($_GET['i']) || empty($_GET['i'])){
                             echo <<<EOT
