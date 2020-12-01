@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+
+    <html>
+
+        <header>
+
+            <title>SEMS login page</title>
+
+            <link rel="stylesheet" href="../styles/main.css">
+
+
+
+            <!-- <script>
+
+                function login(){
+
+                    let x;
+
+                    if (window.XMLHttpRequest) {
+
+                        x = new XMLHttpRequest();
+
+                    }
+
+                    else {
+
+                        x = new ActiveXObject("Microsoft.XMLHTTP");
+
+                    }
+
+                    x.onreadystatechange = function() {
+
+                        if(this.readyState == 4) {
+
+                            console.log(this.responseText);
+
+                            for(let responseElem of document.querySelectorAll('form#login-form.response')){
+
+                                
+
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            </script> -->
+
+        </header>
+
+        <body>
+
+            <div id="content">
+
+                <div id="login-area" class="section">
+
+                <form id="login-form" action="login.php" method="post">
+
+                    <h1>Login</h1>
+
+                    <h2>Enter your account details</h2>
+
+                    <p class="response"></p>
+
+                    <label for="email">Email</label>
+
+                    <input id="email-box" type="text" name="email"/>
+
+                    <label for="pass">Password</label>
+
+                    <input id="pass-box" type="password" name="password"/>
+
+                    <button type="submit" id="login-button">Login</button>
+
+                </form>
+
+                </div>
+
+            </div>
+
+        </body>
+
+    </html>
