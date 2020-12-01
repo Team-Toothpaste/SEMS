@@ -43,7 +43,10 @@ if(isset($_POST['email']) && !empty($_POST['email'])){
                     SEMS Support
 EOT;
                     $message = wordwrap($message, 70);
-                    mail(" . $email . ", "Your password reset link.", $message, "From: SEMS Support <no-reply@brookes-sems.epizy.com>\r\n");
+                    if(!mail(" . $email . ", "Your password reset link.", $message, "From: SEMS Support <no-reply@brookes-sems.epizy.com>\r\n")){
+                        $responseCode = 500;
+                        $responseMessage = "Please try again later";
+                    }
                 }
             }
         }
