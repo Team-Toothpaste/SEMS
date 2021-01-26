@@ -83,6 +83,8 @@ elseif(isset($_POST['uid']) && !empty($_POST['uid']) && is_numeric($_POST['uid']
             if(mysqli_num_rows($getdetails > 0)){
                 while($row = mysqli_fetch_assoc($getdetails)){
                     $uhash = md5($row['fname'] . ' ' . $row['lname'] . $row['email'] . $row['password']);
+                    $fname = $row['fname'];
+                    $email = $row['email'];
                 }
                 if($uhash == $hash){
                     $responseCode = 500;
@@ -93,6 +95,15 @@ elseif(isset($_POST['uid']) && !empty($_POST['uid']) && is_numeric($_POST['uid']
                     if($changePassword){
                         $responseCode = 200;
                         $responseMessage = "Password changed";
+                        $message = <<<EOT
+                        Hey, $fname!
+
+                        The password for your account on SEMS has been changed. If this wasn't you, please contact support.
+
+                        SEMS Support
+EOT;
+                        $message = wordwrap($message, 70);
+                        mail(" . $email . ", "Your password has been reset.", $message, "From: SEMS Support <no-reply@brookes-sems.epizy.com>\r\n");
                     }
                 }
             }
