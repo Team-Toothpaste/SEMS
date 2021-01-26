@@ -10,6 +10,7 @@ class User {
     
     function __construct(){
         $this->loginID = $this->getLoginID();
+        $this->loadData();
     }
     
     function getInfo(){
