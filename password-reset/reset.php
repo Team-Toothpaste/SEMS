@@ -103,7 +103,7 @@ elseif(isset($_POST['uid']) && !empty($_POST['uid']) && is_numeric($_POST['uid']
                         SEMS Support
 EOT;
                         $message = wordwrap($message, 70);
-                        mail(" . $email . ", "Your password has been reset.", $message, "From: SEMS Support <no-reply@brookes-sems.epizy.com>\r\n");
+                        mail($email, "Your password has been reset.", $message, "From: SEMS Support <no-reply@brookes-sems.epizy.com>\r\n");
                     }
                 }
             }
