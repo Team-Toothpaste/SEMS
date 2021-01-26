@@ -68,6 +68,17 @@ if(isset($_SESSION['sems-user']) && !empty($_SESSION['sems-user']) && isset($_CO
                         if($update){
                             $response['status'] = 200;
                             $response['message'] = "User information updated";
+                            if(in_array('password', $updatefields)){
+                                $message = <<<EOT
+                                Hey, {$user['fname']}!
+
+                                The password for your account on SEMS has been changed. If this wasn't you, please contact support.
+
+                                SEMS Support
+EOT;
+                                $message = wordwrap($message, 70);
+                                mail($user['email'], "Your password has been reset.", $message, "From: SEMS Support <no-reply@brookes-sems.epizy.com>\r\n");
+                            }
                         }
                         else{
                             $response['message'] = "User information could not be updated.";
