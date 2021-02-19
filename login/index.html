@@ -2,16 +2,20 @@
     <html>
         <header>
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+            <script src="//brookes-sems.epizy.com/scripts/menu.js" type="text/javascript"></script>
             <title>SEMS login page</title>
             <link rel="stylesheet" href="../styles/main.css">
 
         </header>
         <body>
+            <menu-bar></menu-bar>
             <div id="content">
                 <div id="login-area" class="section">
                     <form>
                         <h1>Login</h1>
+                        </br>
                         <h2>Enter your account details</h2>
+                        </br>
                         <label for="email">Email</label>
                         <input id="email-box" type="text" name="email"/>
                         <label for="pass">Password</label>
@@ -33,13 +37,16 @@
                 url: '/login/login.php',
                 data: $('form').serialize(),
                 success: function(response){
-                    $('#response').css("visibility","visible");
-                    $('#response').css("padding","15px");
-                    $('#response').css("margin-bottom","5px");
-                    $('#response').find('p').html(response);
-                    // var form = document.getElementsByTagName('form')[0];
-                    // form.reset();
-                    // return false;
+                    let item = JSON.parse(response);
+                    if (item.action == "display"){
+                        $('#response').css("visibility","visible");
+                        $('#response').css("padding","15px");
+                        $('#response').css("margin-bottom","5px");
+                        $('#response').find('p').html(item.html);
+                    }
+                    else if (item.action == "redirect"){
+                        window.location.replace(item.location);
+                    }
                 }
             });
         return false
@@ -50,7 +57,7 @@
     <style>
         #response {
             visibility: hidden;
-            background: rgb(236, 149, 149);
-            border-radius: 10px;
+            background: rgb(241, 223, 223);
+            border-radius: 13px;
         }
     </style>
