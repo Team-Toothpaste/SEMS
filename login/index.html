@@ -1,89 +1,66 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
-
     <html>
-
         <header>
-
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+            <script src="//brookes-sems.epizy.com/scripts/menu.js" type="text/javascript"></script>
             <title>SEMS login page</title>
-
             <link rel="stylesheet" href="../styles/main.css">
 
-            <script src="//brookes-sems.epizy.com/scripts/menu.js" type="text/javascript"></script>
-
-
-
-            <!-- <script>
-
-                function login(){
-
-                    let x;
-
-                    if (window.XMLHttpRequest) {
-
-                        x = new XMLHttpRequest();
-
-                    }
-
-                    else {
-
-                        x = new ActiveXObject("Microsoft.XMLHTTP");
-
-                    }
-
-                    x.onreadystatechange = function() {
-
-                        if(this.readyState == 4) {
-
-                            console.log(this.responseText);
-
-                            for(let responseElem of document.querySelectorAll('form#login-form.response')){
-
-                                
-
-                            }
-
-                        }
-
-                    }
-
-                }
-
-            </script> -->
-
         </header>
-
         <body>
-
+            <menu-bar></menu-bar>
             <div id="content">
-
                 <div id="login-area" class="section">
-
-                <form id="login-form" action="login.php" method="post">
-
-                    <h1>Login</h1>
-
-                    <h2>Enter your account details</h2>
-
-                    <p class="response"></p>
-
-                    <label for="email-box">Email</label>
-
-                    <input id="email-box" type="text" name="email"/>
-
-                    <label for="pass-box">Password</label>
-
-                    <input id="pass-box" type="password" name="password"/>
-
-                    <input type="submit" id="login-button" value="Login" />
-                    <a href="../register/index.html"><input type="button" value="Register"></a>
-
-                </form>
-
-
+                    <form>
+                        <h1>Login</h1>
+                        </br>
+                        <h2>Enter your account details</h2>
+                        </br>
+                        <label for="email">Email</label>
+                        <input id="email-box" type="text" name="email"/>
+                        <label for="pass">Password</label>
+                        <input id="pass-box" type="password" name="password"/>
+                        <div id="response"><p></p></div>
+                        <input type="submit" value="submit" id="login-button"></input>
+                    </form>
                 </div>
-
             </div>
-
         </body>
-
     </html>
+
+    <script>
+        $("form").on("submit", function(event) {
+            event.preventDefault();
+            $.ajax({
+                cache: false,
+                type: 'post',
+                url: '/login/login.php',
+                data: $('form').serialize(),
+                success: function(response){
+                    let item = JSON.parse(response);
+                    if (item.action == "display"){
+                        $('#response').css("visibility","visible");
+                        $('#response').css("padding","15px");
+                        $('#response').css("margin-bottom","5px");
+                        $('#response').find('p').html(item.html);
+                    }
+                    else if (item.action == "redirect"){
+                        window.location.replace(item.location);
+                    }
+                }
+            });
+        return false
+        });
+
+    </script>
+
+    <style>
+        #response {
+            visibility: hidden;
+            background: rgb(241, 223, 223);
+            border-radius: 13px;
+        }
+    </style>
+=======
+>>>>>>> input-data
