@@ -2,7 +2,7 @@
 $responseCode = 400;
 $responseMessage = "Form incomplete";
 if(isset($_POST['2FACode']) && !empty($_POST['2FACode']) && is_numeric($_POST['2FACode'])){
-    $2FACode = $_POST['2FACode'];
+    $twoFACode = $_POST['2FACode'];
     //Format
     $responseMessage = "An unknown error occurred";
     $responseCode = 500;
@@ -12,19 +12,21 @@ if(isset($_POST['2FACode']) && !empty($_POST['2FACode']) && is_numeric($_POST['2
     if($conn){
         $responseCode = 200;
         //DB connection
-        $cookiedata = $_COOKIE['sems-user'];
+        $cookieData = $_COOKIE['sems-user'];
         $cookieParts = explode(':', $cookieData);
-        $uid = $cookieParts[0];
-        $getpassword = SELECT password FROM users WHERE userId=$uid
+        $uid = mysqli_real_escape_string($conn, $cookieParts[0]);
+        $getpassword = mysqli_query($conn, "SELECT password, 2FACode FROM users WHERE userId=".$uid);
         if(mysqli_num_rows($getpassword) == 1){
             //Search for 2FA code for user with id cookie[1] Check md5($passwordhash . $2facode) == cookie[0] if true continue: $_SESSION['sems-user'] -> cookie
-            $password = mysqli_fetch_assoc($getpassword)['password']
-            if(md5($passwordhash . $2FACode) == $cookieParts[1]){
+            while($row = mysqli_fetch_assoc($getpassword)){
+                $passwordhash = $row['password'];
+            }
+            if(md5($passwordhash . strval($twoFACode)) == $cookieParts[1]){
                 $_SESSION['sems-user'] = $cookieData;
-                $responseMessage = "Code correct"
+                $responseMessage = "Code correct";
             } 
             else{
-                $responseMessage = "Code incorrect"
+                $responseMessage = "Code incorrect";
             }
         }
         mysqli_close($conn);

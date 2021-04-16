@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+    <html>
+        <header>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+            <script src="//brookes-sems.epizy.com/scripts/menu.js" type="text/javascript"></script>
+            <title>SEMS login page</title>
+            <link rel="stylesheet" href="../styles/main.css">
+            <script src="./customs.js" type="text/javascript"></script>
+
+        </header>
+        <body>
+            <menu-bar></menu-bar>
+            <div id="content" id="gen">
+                <h1 id="test">View and change your settings</h1>
+                <div id="wrapper">
+                    <div id="settings-area">
+                        <h2>Settings</h2>
+                        <ul>
+                            <li onclick="changeEle('profile')">Profile</li>
+                            <hr/>
+                            <li onclick="changeEle('account')">Account</li>
+                            <hr/>
+                            <li onclick="changeEle('security')">Security</li>
+                            <hr/>
+                        </ul>
+                    </div>
+                    <!-- <div class="vl"></div> -->
+                    <div id="popper-area">
+                        <h2>Change settings</h2>
+                    </div>
+                </div>
+        </div>
+        <script>
+            function changeEle(input) {
+                // attach correct custom ele child to popper-area
+                console.log(document.getElementById('popper-area'));
+                if (input == "profile") {
+                    document.getElementById("popper-area").innerHTML = `<profile-popper></profile-popper>`;
+                    displayUsername();
+                }
+                if (input == "account") {
+                    document.getElementById("popper-area").innerHTML = `<account-popper></account-popper>`;
+                    displayUsername();
+                }
+                if (input == "security") {
+                    document.getElementById("popper-area").innerHTML = `<security-popper></security-popper>`;
+                }
+
+            }
+    
+            function getUsername(response) {
+
+                $(".usernametag").each((index, elem) => {
+                    $(elem).text(response);
+                });
+            }
+
+            function getEmail(response) {
+
+                $("#emailtag").text(response);
+            }
+
+            function displayEmail(){
+                ajaxloader("get-email.php",getEmail(),false);
+            }
+
+            $(".usernameForm").submit( function(event) {
+                event.preventDefault;
+                let content = $(".changeUsername").val;
+                console.log(content);
+                ajaxloader("set-username.php",setUsername(),{"newuser":content});
+            });
+
+            function displayUsername(){
+                ajaxloader("get-username.php",getUsername(),false);
+            }
+            
+            function ajaxloader(script,handlerFunc,passData) {
+                $(document).ready(function() {
+                    $.ajax({
+                        type: "POST",
+                        url: script,
+                        data: passData,
+                        success: handlerFunc,
+                    });
+                });
+            }
+    
+        </script>
+        </body>
+    </html>
+
+    <style>
+        .vl{
+            border-left: 6px solid rgb(182, 182, 182);
+            height: 500vh;
+        }
+        #gen {
+            padding: 10px;
+        }
+        #wrapper {
+            display: flex;
+        }
+        #popper-area{
+            width: 90%;
+            padding: 20px;
+        }
+        #settings-area ul{
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+        #settings-area{
+            background-color: whitesmoke;
+            width: 300px;
+            padding: 20px;
+            line-height: 3vh;
+            border-radius: 3px;
+            padding-top: 5px;
+            padding-bottom: 50vh;
+            border: solid rgb(231, 231, 231) 1px;
+        }
+        #settings-area li:hover {
+            background-color: var(--green, green);
+            color: var(--white, white);
+            cursor: pointer;
+        }
+        #response {
+            visibility: hidden;
+            background: rgb(241, 223, 223);
+            border-radius: 13px;
+        }
+    </style>
