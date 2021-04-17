@@ -13,20 +13,24 @@
 
 
             <script>
-
-                $("#login-form").submit(function(event) {
-                    event.preventDefault();
-                    var fd = new FormData($("login-form"));
-                    $.ajax ({
-                        type: "POST",
-                        url: "login.php",
-                        data: fd,
-                    }).done(function(result) {
-                        console.log(result);
-                        $("#response").html = result;
-                            if (result == "Login successful") {
-                                window.location.replace("../2fa/index.html");
-                            }
+                $(document).ready(function () {
+                    $("#loginForm").submit(function(event) {
+                        event.preventDefault();
+                        let form = document.getElementById("loginForm");
+                        let fd = new FormData(form);
+                        $.ajax ({
+                            type: "POST",
+                            url: "login.php",
+                            data: fd,
+                            processData: false,
+                            contentType: false,
+                        }).done(function(result) {
+                            console.log(result);
+                            $("#response").html(result);
+                                if (result == "Login successful") {
+                                    window.location.replace("../2fa/index.html");
+                                }
+                        });
                     });
                 });
             </script>
@@ -40,13 +44,13 @@
 
                 <div id="login-area" class="section">
 
-                <form id="login-form" action="" method="POST">
+                <form id="loginForm" method="POST">
 
                     <h1>Login</h1>
 
                     <h2>Enter your account details</h2>
 
-                    <p id="response"></p>
+                    <p style="color:red;" id="response"></p>
 
                     <label for="email">Email</label>
 
