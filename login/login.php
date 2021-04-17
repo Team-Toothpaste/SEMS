@@ -13,6 +13,7 @@ function randNum() {
 };
 
 session_start();
+$responseMessage = "Form incomplete";
 
 require_once('../.credentials.php');
 if( isset($_POST['email']) && !empty($_POST['email'])
@@ -44,7 +45,7 @@ if( isset($_POST['email']) && !empty($_POST['email'])
 
                 // Create string hash out of passwordhash:2FA
                 // if using a salt it will have to be stored in database then
-                // appended to the hash before dehashing
+                // appended to the hash
                 $hashedTwofa = md5($row['password'] . strval($twofa));
                 // store twofa in database
 
@@ -91,28 +92,28 @@ if( isset($_POST['email']) && !empty($_POST['email'])
                 $mail->send();
 
                 // Redirect to 2FA page and send values
-                header('location: /2fa');
-                exit();
+                $responseMessage = "Login successful";
+                echo $responseMessage;
             }   
             else {
                 // Invalid
-                header('location: /login');
-                exit();
+                $responseMessage = "Incorrect details";
+                echo $responseMessage;
             }
         }
         else {
-            header('location: /login');
-            exit();
+            $responseMessage = "Incorrect details";
+            echo $responseMessage;
         }
     }
     else {
-        header('location: /login');
-        exit();
+        $responseMessage = "Server error";
+        echo $responseMessage;
     }
 
 } 
 else {
-    header('location: /login');
-    exit();
+    $responseMessage = "Details are empty";
+    echo $responseMessage;
 }
 ?>

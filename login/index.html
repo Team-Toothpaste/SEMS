@@ -7,72 +7,54 @@
             <title>SEMS login page</title>
 
             <link rel="stylesheet" href="../styles/main.css">
-
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
             <script src="//brookes-sems.epizy.com/scripts/menu.js" type="text/javascript"></script>
 
 
 
-            <!-- <script>
+            <script>
 
-                function login(){
-
-                    let x;
-
-                    if (window.XMLHttpRequest) {
-
-                        x = new XMLHttpRequest();
-
-                    }
-
-                    else {
-
-                        x = new ActiveXObject("Microsoft.XMLHTTP");
-
-                    }
-
-                    x.onreadystatechange = function() {
-
-                        if(this.readyState == 4) {
-
-                            console.log(this.responseText);
-
-                            for(let responseElem of document.querySelectorAll('form#login-form.response')){
-
-                                
-
+                $("#login-form").submit(function(event) {
+                    event.preventDefault();
+                    var fd = new FormData($("login-form"));
+                    $.ajax ({
+                        type: "POST",
+                        url: "login.php",
+                        data: fd,
+                    }).done(function(result) {
+                        console.log(result);
+                        $("#response").html = result;
+                            if (result == "Login successful") {
+                                window.location.replace("../2fa/index.html");
                             }
-
-                        }
-
-                    }
-
-                }
-
-            </script> -->
+                    });
+                });
+            </script>
 
         </header>
 
         <body>
+            <menu-bar></menu-bar>
 
             <div id="content">
 
                 <div id="login-area" class="section">
 
-                <form id="login-form" action="login.php" method="post">
+                <form id="login-form" action="" method="POST">
 
                     <h1>Login</h1>
 
                     <h2>Enter your account details</h2>
 
-                    <p class="response"></p>
+                    <p id="response"></p>
 
-                    <label for="email-box">Email</label>
+                    <label for="email">Email</label>
 
-                    <input id="email-box" type="text" name="email"/>
+                    <input id="email" type="text" name="email"/>
 
-                    <label for="pass-box">Password</label>
+                    <label for="password">Password</label>
 
-                    <input id="pass-box" type="password" name="password"/>
+                    <input id="password" type="password" name="password"/>
 
                     <input type="submit" id="login-button" value="Login" />
                     <a href="../register/index.html"><input type="button" value="Register"></a>

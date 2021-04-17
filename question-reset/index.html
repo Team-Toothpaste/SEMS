@@ -1,0 +1,76 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Register - SEMS</title>
+        
+        <link rel="stylesheet" href="//brookes-sems.epizy.com/styles/main.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="//brookes-sems.epizy.com/scripts/menu.js" type="text/javascript"></script>
+        
+        <script>
+            $(document).ready(function () {
+                $("#question-form").submit(function(event) {
+                    event.preventDefault();
+                    var formData = {
+                        question: $("select").val(),
+                        answer: $("#answer").val()
+                    }
+                    $.ajax({
+                        method: "POST",
+                        url: "reset.php",
+                        data: formData,
+                    }).done(function (result) {
+                        console.log(result);
+                        var result = JSON.parse(result);
+                        $("#response").html(result.message);
+                        if (result.message == "Success") {
+                            window.location.replace("../profile/index.html");
+                        }
+                    });
+                });
+            });
+            
+            
+        </script>
+        <style>
+            
+            form#question-form {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: flex-start;
+                align-self: center;
+                padding: 10px;
+                border-radius: 10px;
+                width: 30%;
+                max-width: 300px;
+            }
+            
+        </style>
+    </head>
+    <body>
+        <menu-bar></menu-bar>
+        <div id="content">
+            <div id="question-area" class="selection">
+                <form id="question-form" method="POST" action="">
+                    <h1>Questions</h1>
+                    <h2>Set up your memorable questions!</h2>
+                    <p style="color:red;" id="response"></p>
+                    <select name="question1" id="question1">
+                        <optgroup label="questions">
+                            <option value="What was the name of your first pet?">What was the name of your first pet?</option>
+                            <option value="What was your favourite subject at school?">What was your favourite subject at school?</option>
+                            <option value="What is your favourite meal?">What is your favourite meal?</option>
+                            <option value="Name a memorable historical character.">Name a memorable historical character.</option>
+                            <option value="Name a memorable city.">Name a memorable city.</option>
+                        </optgroup>
+                    </select>
+                    <label for="answer">Answer:</label>
+                    <input type="text">
+                    <input type="submit" value="Submit">
+                </form>
+            </div>
+    </body>
+</html>
